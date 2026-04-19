@@ -52,7 +52,7 @@ services:
       - app-network
 
   jenkins:
-    image: trion/jenkins-docker
+    build: ./jenkins
     container_name: jenkins
     privileged: true
     user: root
