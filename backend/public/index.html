@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Container App | Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --bg-light: #f9fafb;
+            --white: #ffffff;
+            --border: #e5e7eb;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-main);
+            background-color: var(--white);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navbar */
+        nav {
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav ul a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 5rem 0;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ffffff 100%);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: #111827;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover { background-color: var(--primary-dark); }
+
+        .btn-outline {
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover { background-color: var(--bg-light); }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        /* System Status Section */
+        .status-section {
+            padding: 3rem 0;
+            background-color: var(--bg-light);
+            text-align: center;
+        }
+
+        .status-container {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 1.5rem;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #cbd5e1;
+        }
+
+        .dot.online { background-color: #10b981; }
+
+        /* Footer */
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+    </style>
+</head>
+<body>
+
+<nav class="container">
+    <div class="logo">AppNode</div>
+    <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="http://localhost:9090" target="_blank">Monitoring</a></li>
+        <li><a href="http://localhost:3001" target="_blank">Grafana</a></li>
+    </ul>
+</nav>
+
+<section class="hero">
+    <div class="container">
+        <h1>Welcome to the Multi-Container Web Interface</h1>
+        <p>A simple, clean, and professional orchestration setup for managing your backend and database services together.</p>
+        <div class="cta-buttons">
+            <a href="/api" target="_blank" class="btn btn-primary">Check API Root</a>
+            <a href="/metrics" target="_blank" class="btn btn-outline">View Raw Metrics</a>
+        </div>
+    </div>
+</section>
+
+<section id="features" class="features container">
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h3>🐳 Docker Orchestration</h3>
+            <p>Runs your application and database in isolated containers, ensuring consistent environments everywhere.</p>
+        </div>
+        <div class="feature-card">
+            <h3>🔄 Jenkins Automation</h3>
+            <p>Integrated CI/CD pipeline allows for automated building, testing, and deployment of your microservices.</p>
+        </div>
+        <div class="feature-card">
+            <h3>📊 Live Monitoring</h3>
+            <p>Enabled with Prometheus and Grafana to track resource usage and application performance in real-time.</p>
+        </div>
+    </div>
+</section>
+
+<section class="status-section">
+    <div class="container">
+        <h2>System Connectivity</h2>
+        <div class="status-container">
+            <div class="status-item">
+                <span class="dot online"></span> API Server: <span id="api-status">Checking...</span>
+            </div>
+            <div class="status-item">
+                <span class="dot" id="db-dot"></span> Database: <span id="db-status">Checking...</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2026 Multi-Container Application Project. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    async function checkStatus() {
+        try {
+            const apiRes = await fetch('/health');
+            const apiData = await apiRes.json();
+            document.getElementById('api-status').innerText = apiData.status === 'UP' ? 'Online' : 'Offline';
+
+            const dbRes = await fetch('/db-check');
+            const dbData = await dbRes.json();
+            const dbStatusText = document.getElementById('db-status');
+            const dbDot = document.getElementById('db-dot');
+            
+            if (dbData.status === 'Connected') {
+                dbStatusText.innerText = 'Online';
+                dbDot.classList.add('online');
+            } else {
+                dbStatusText.innerText = 'Offline';
+                dbDot.classList.remove('online');
+            }
+        } catch (e) {
+            console.error('Check failed', e);
+        }
+    }
+    checkStatus();
+    setInterval(checkStatus, 30000); // Check every 30s for simple site
+</script>
+
+</body>
+</html>

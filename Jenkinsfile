@@ -1,0 +1,59 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = "my-backend-app"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out source code...'
+                // Code checkout usually handled by Jenkins SCM plugin
+                // git 'https://github.com/your-repo/multi-container-app.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    echo 'Building backend docker image...'
+                    sh "docker build -t ${DOCKER_IMAGE}:latest ./backend"
+                }
+            }
+        }
+
+        stage('Deploy with Docker Compose') {
+            steps {
+                script {
+                    echo 'Starting architecture with Docker Compose...'
+                    sh "docker-compose up -d"
+                }
+            }
+        }
+
+        stage('Verify Deployment') {
+            steps {
+                script {
+                    echo 'Verifying services...'
+                    // Wait for services to be ready
+                    sleep 10
+                    sh "curl http://localhost:3000/health"
+                    sh "curl http://localhost:9090/-/ready"
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline execution completed.'
+        }
+        success {
+            echo 'Deployment successful!'
+        }
+        failure {
+            echo 'Deployment failed. Check logs.'
+        }
+    }
+}
