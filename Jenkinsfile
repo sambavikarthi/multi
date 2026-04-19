@@ -9,8 +9,6 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo 'Checking out source code...'
-                // Code checkout usually handled by Jenkins SCM plugin
-                // git 'https://github.com/your-repo/multi-container-app.git'
             }
         }
 
@@ -27,7 +25,9 @@ pipeline {
             steps {
                 script {
                     echo 'Starting architecture with Docker Compose...'
-                    sh "docker-compose up -d"
+                    
+                    // ✅ FIXED HERE
+                    sh "docker compose up -d"
                 }
             }
         }
@@ -36,10 +36,11 @@ pipeline {
             steps {
                 script {
                     echo 'Verifying services...'
-                    // Wait for services to be ready
+                    
                     sleep 10
-                    sh "curl http://localhost:3000/health"
-                    sh "curl http://localhost:9090/-/ready"
+                    
+                    sh "curl http://localhost:3000/health || exit 1"
+                    sh "curl http://localhost:9090/-/ready || exit 1"
                 }
             }
         }
