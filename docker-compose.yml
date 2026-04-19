@@ -51,9 +51,24 @@ services:
     networks:
       - app-network
 
+  jenkins:
+    image: trion/jenkins-docker
+    container_name: jenkins
+    privileged: true
+    user: root
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins-data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
 
 volumes:
   pg-data:
+  jenkins-data:
